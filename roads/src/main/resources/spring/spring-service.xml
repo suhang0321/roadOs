@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd ">
+
+        <bean id="userService" class="com.suhang.road.serviceImp.UserServiceImp"/>
+        <bean id="projectService" class="com.suhang.road.serviceImp.BaiYouServiceImp"/>
+        <bean id="fangZhuanService" class="com.suhang.road.serviceImp.FangZhuanServiceImp"/>
+        <bean id="yongDaoService" class="com.suhang.road.serviceImp.YongDaoServiceImp"/>
+        <bean id="caoPingService" class="com.suhang.road.serviceImp.CaoPingServiceImp"/>
+        <bean id="lvDiService" class="com.suhang.road.serviceImp.LvDiServiceImp"/>
+        <bean id="xingDaoService" class="com.suhang.road.serviceImp.XingDaoServiceImp"/>
+        <bean id="qiaoMuService" class="com.suhang.road.serviceImp.QiaoMuServiceImp"/>
+        <bean id="luoYeService" class="com.suhang.road.serviceImp.LuoYeServiceImp"/>
+        <bean id="guanMuService" class="com.suhang.road.serviceImp.GuanMuServiceImp"/>
+        <bean id="huaHuiService" class="com.suhang.road.serviceImp.HuaHuiServiceImp"/>
+        <bean id="ziXingJiaService" class="com.suhang.road.serviceImp.ZiXingJiaServiceImp"/>
+        <bean id="guoPiXiangService" class="com.suhang.road.serviceImp.GuoPiXiangServiceImp"/>
+        <bean id="laJiService" class="com.suhang.road.serviceImp.LaJiServiceImp"/>
+        <bean id="luDengService" class="com.suhang.road.serviceImp.LuDengServiceImp"/>
+        <bean id="tingLangService" class="com.suhang.road.serviceImp.TingLangServiceImp"/>
+        <bean id="jiaShanService" class="com.suhang.road.serviceImp.JiaShanServiceImp"/>
+        <bean id="shuiXiService" class="com.suhang.road.serviceImp.ShuiXiServiceImp"/>
+        <bean id="zhenGuiService" class="com.suhang.road.serviceImp.ZhenGuiServiceImp"/>
+        <bean id="erCiService" class="com.suhang.road.serviceImp.ErCiServiceImp"/>
+        <bean id="tingCheService" class="com.suhang.road.serviceImp.TingCheServiceImp"/>
+        <bean id="qingXueService" class="com.suhang.road.serviceImp.QingXueServiceImp"/>
+        <bean id="lvLiService" class="com.suhang.road.serviceImp.LvLiServiceImp"/>
+        <bean id="yunDongService" class="com.suhang.road.serviceImp.YunDongServiceImp"/>
+        <bean id="qiTaService" class="com.suhang.road.serviceImp.QiTaServiceImp"/>
+        <bean id="logService" class="com.suhang.road.serviceImp.LogServiceImp"/>
+
+    <!--<bean id="userService" class="com.suhang.library.serviceimp.UserServiceImp"/>-->
+    <!--<bean id="categoryService" class="com.suhang.library.serviceimp.CategoryServiceImp"/>-->
+    <!--<bean id="bookService" class="com.suhang.library.serviceimp.BookServiceImp"/>-->
+    <!--<bean id="cartItemService" class="com.suhang.library.serviceimp.CartItemServiceImp"/>-->
+    <!--<bean id="orderService" class="com.suhang.library.serviceimp.OrderServiceImp"/>-->
+    <!--<bean id="adminService" class="com.suhang.library.serviceimp.AdminServiceImp"/>-->
+</beans>

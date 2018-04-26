@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.FangZhuanMapper">
+    <select id="findFangZhuansByBlock" parameterType="com.suhang.road.povo.FangZhuanVo" resultType="com.suhang.road.po.FangZhuan">
+        SELECT * FROM
+        r_fangzhuan f
+        WHERE
+        f.`fz_block`=#{block}
+        ORDER BY f.`fz_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findFangZhuansAll" parameterType="com.suhang.road.povo.FangZhuanVo" resultType="com.suhang.road.po.FangZhuan">
+        SELECT * FROM
+        r_fangzhuan f
+         ORDER BY f.`fz_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findFangZhuanById" parameterType="Integer" resultType="com.suhang.road.po.FangZhuan">
+        select * FROM r_fangzhuan WHERE fz_id=#{fz_id}
+    </select>
+    <select id="findFangZhuansAllNoFenye" resultType="com.suhang.road.po.FangZhuan">
+        SELECT * FROM r_fangzhuan ORDER BY fz_id DESC
+    </select>
+    <select id="findFangZhuanByBlockNoFenye" parameterType="String" resultType="com.suhang.road.po.FangZhuan">
+        SELECT * FROM r_fangzhuan where fz_block = #{block} ORDER BY fz_id DESC
+    </select>
+    <select id="findCountAll" resultType="Integer">
+        select count(*) FROM
+        r_fangzhuan
+    </select>
+    <select id="findCountByBlock" parameterType="String" resultType="Integer">
+        select count(*) FROM
+        r_fangzhuan
+        WHERE
+        fz_block=#{block}
+    </select>
+    <update id="updateFangZhuanList" parameterType="java.util.List">
+        <foreach collection="list" item="single" index="index" open="" close="" separator=";">
+            UPDATE r_fangzhuan f
+            <set>
+                f.`fz_logo`=#{single.fz_logo},f.`fz_name`=#{single.fz_name},f.`fz_location`=#{single.fz_location},
+                f.`fz_direction`=#{single.fz_direction},f.`fz_length`=#{single.fz_length},
+                f.`fz_width`=#{single.fz_width},f.`fz_area`=#{single.fz_area},f.`fz_block`=#{single.fz_block}
+            </set>
+            where f.`fz_id`=#{single.fz_id}
+        </foreach>
+    </update>
+    <delete id="deleteFangZhuansByIds" parameterType="String">
+        delete from r_fangzhuan where fz_id IN
+        <foreach collection="array" item="fz_id" open="(" close=")" separator=",">
+            #{fz_id}
+        </foreach>
+    </delete>
+    <insert id="insertFangZhuan" parameterType="com.suhang.road.po.FangZhuan">
+        INSERT into r_fangzhuan() VALUES (#{fz_id},#{fz_logo},#{fz_name},#{fz_location},#{fz_direction},#{fz_length},#{fz_width},
+        #{fz_area},
+        #{fz_block})
+    </insert>
+</mapper>

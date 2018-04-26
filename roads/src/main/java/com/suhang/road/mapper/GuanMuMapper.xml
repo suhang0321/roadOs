@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.GuanMuMapper">
+    <select id="findGuanMusByBlock" parameterType="com.suhang.road.povo.GuanMuVo" resultType="com.suhang.road.po.GuanMu">
+        SELECT * FROM
+        r_guanmu r
+        WHERE
+        r.`gm_block`=#{block}
+        ORDER BY r.`gm_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findGuanMusAll" parameterType="com.suhang.road.povo.GuanMuVo" resultType="com.suhang.road.po.GuanMu">
+        SELECT * FROM
+        r_guanmu r
+        ORDER BY r.`gm_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findGuanMuById" parameterType="Integer" resultType="com.suhang.road.po.GuanMu">
+        select * from r_guanmu WHERE gm_id = #{gm_id}
+    </select>
+    <select id="getGuanMusAll" resultType="com.suhang.road.po.GuanMu">
+        SELECT  * from r_guanmu
+    </select>
+    <select id="getGuanMusByBlock" parameterType="String" resultType="com.suhang.road.po.GuanMu">
+        SELECT * FROM r_guanmu WHERE gm_block = #{block}
+    </select>
+    <select id="findCountAll" resultType="Integer">
+        select count(*) FROM r_guanmu
+    </select>
+    <select id="findCountByBlock" parameterType="String" resultType="Integer">
+        SELECT  count(*) FROM r_guanmu WHERE gm_block = #{block}
+    </select>
+    <update id="updateGuanMuList" parameterType="java.util.List">
+        <foreach collection="list" item="single" index="index" open="" close="" separator=";">
+            UPDATE r_guanmu r
+            <set>
+                r.`gm_logo`=#{single.gm_logo},r.`gm_name`=#{single.gm_name},r.`gm_location`=#{single.gm_location},
+                r.`gm_type`=#{single.gm_type},r.`gm_kind`=#{single.gm_kind},
+                r.`gm_num`=#{single.gm_num},r.`gm_year`=#{single.gm_year},r.`gm_block`=#{single.gm_block}
+            </set>
+            where r.`gm_id`=#{single.gm_id}
+        </foreach>
+    </update>
+    <delete id="deleteGuanMusByIds" parameterType="String">
+        delete from r_guanmu where gm_id IN
+        <foreach collection="array" item="gm_id" open="(" close=")" separator=",">
+            #{gm_id}
+        </foreach>
+    </delete>
+    <insert id="insertGuanMu" parameterType="com.suhang.road.po.GuanMu">
+        INSERT into r_guanmu() VALUES (#{gm_id},#{gm_logo},#{gm_name},#{gm_location},#{gm_type},
+        #{gm_kind},#{gm_num},
+        #{gm_year},
+        #{gm_block})
+    </insert>
+</mapper>

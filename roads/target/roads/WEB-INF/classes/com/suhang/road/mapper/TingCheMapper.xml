@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.TingCheMapper">
+    <select id="findTingChesByBlock" parameterType="com.suhang.road.povo.TingCheVo" resultType="com.suhang.road.po.TingChe">
+        SELECT * FROM
+        r_tingche r
+        WHERE
+        r.`tc_block`=#{block}
+        ORDER BY r.`tc_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findTingChesAll" parameterType="com.suhang.road.povo.TingCheVo" resultType="com.suhang.road.po.TingChe">
+        SELECT * FROM
+        r_tingche r
+        ORDER BY r.`tc_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findTingCheById" parameterType="Integer" resultType="com.suhang.road.po.TingChe">
+        SELECT * from r_tingche WHERE tc_id = #{tc_id}
+    </select>
+    <select id="getTingChesAll" resultType="com.suhang.road.po.TingChe">
+        SELECT * FROM r_tingche
+    </select>
+    <select id="getTingChesByBlock" parameterType="String" resultType="com.suhang.road.po.TingChe">
+        SELECT  * FROM r_tingche WHERE tc_block = #{block}
+    </select>
+    <select id="findCountAll" resultType="Integer">
+        SELECT count(*) from r_tingche
+    </select>
+    <select id="findCountByBlock" parameterType="String" resultType="Integer">
+        SELECT count(*) from r_tingche WHERE tc_block = #{block}
+    </select>
+    <update id="updateTingCheList" parameterType="java.util.List">
+        <foreach collection="list" item="single" index="index" open="" close="" separator=";">
+            UPDATE r_tingche r
+            <set>
+                r.`tc_logo`=#{single.tc_logo},r.`tc_name`=#{single.tc_name},r.`tc_location`=#{single.tc_location},
+                r.`tc_unit`=#{single.tc_unit},r.`tc_type`=#{single.tc_type},
+                r.`tc_num`=#{single.tc_num},r.`tc_capacity`=#{single.tc_capacity},r.`tc_block`=#{single.tc_block}
+            </set>
+            where r.`tc_id`=#{single.tc_id}
+        </foreach>
+    </update>
+    <delete id="deleteTingChesByIds" parameterType="String">
+        delete from r_tingche where tc_id IN
+        <foreach collection="array" item="tc_id" open="(" close=")" separator=",">
+            #{tc_id}
+        </foreach>
+    </delete>
+    <insert id="insertTingChe" parameterType="com.suhang.road.po.TingChe">
+        INSERT into r_tingche() VALUES (#{tc_id},#{tc_logo},#{tc_name},#{tc_location},#{tc_unit},
+        #{tc_type},#{tc_num},
+        #{tc_capacity},
+        #{tc_block})
+    </insert>
+</mapper>

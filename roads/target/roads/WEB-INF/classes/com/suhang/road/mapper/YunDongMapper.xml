@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.YunDongMapper">
+    <select id="findYunDongsByBlock" parameterType="com.suhang.road.povo.YunDongVo" resultType="com.suhang.road.po.YunDong">
+        SELECT * FROM
+        r_yundong r
+        WHERE
+        r.`yd_block`=#{block}
+        ORDER BY r.`yd_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findYunDongsAll" parameterType="com.suhang.road.povo.YunDongVo" resultType="com.suhang.road.po.YunDong">
+        SELECT * FROM
+        r_yundong r
+        ORDER BY r.`yd_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="getYunDongsAll" resultType="com.suhang.road.po.YunDong">
+        select * from r_yundong
+    </select>
+    <select id="getYunDongsByBlock" parameterType="String" resultType="com.suhang.road.po.YunDong">
+        SELECT * from r_yundong WHERE yd_block = #{block}
+    </select>
+    <select id="findYunDongById" parameterType="Integer" resultType="com.suhang.road.po.YunDong">
+        SELECT * from r_yundong WHERE yd_id = #{yd_id}
+    </select>
+    <select id="findCountAll" resultType="Integer">
+        SELECT count(*) from r_yundong
+    </select>
+    <select id="findCountByBlock" parameterType="String" resultType="Integer">
+        SELECT count(*) from r_yundong WHERE yd_block = #{block}
+    </select>
+    <update id="updateYunDongList" parameterType="java.util.List">
+        <foreach collection="list" item="single" index="index" open="" close="" separator=";">
+            UPDATE r_yundong r
+            <set>
+                r.`yd_logo`=#{single.yd_logo},r.`yd_name`=#{single.yd_name},r.`yd_unit`=#{single.yd_unit},
+                r.`yd_location`=#{single.yd_location},r.`yd_type`=#{single.yd_type},
+                r.`yd_block`=#{single.yd_block}
+            </set>
+            where r.`yd_id`=#{single.yd_id}
+        </foreach>
+    </update>
+    <delete id="deleteYunDongsByIds" parameterType="String">
+        delete from r_yundong where yd_id IN
+        <foreach collection="array" item="yd_id" open="(" close=")" separator=",">
+            #{yd_id}
+        </foreach>
+    </delete>
+    <insert id="insertYunDong" parameterType="com.suhang.road.po.YunDong">
+        INSERT into r_yundong() VALUES (#{yd_id},#{yd_logo},#{yd_name},#{yd_unit},#{yd_location},
+        #{yd_type},#{yd_block})
+    </insert>
+</mapper>

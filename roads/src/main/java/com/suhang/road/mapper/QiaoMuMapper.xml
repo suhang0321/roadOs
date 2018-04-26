@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.QiaoMuMapper">
+    <select id="findQiaoMusByBlock" parameterType="com.suhang.road.povo.QiaoMuVo" resultType="com.suhang.road.po.QiaoMu">
+        SELECT * FROM
+        r_qiaomu r
+        WHERE
+        r.`ls_block`=#{block}
+        ORDER BY r.`ls_id` DESC  LIMIT #{snep},#{ps}
+    </select>
+    <select id="findQiaoMusAll"  parameterType="com.suhang.road.povo.QiaoMuVo" resultType="com.suhang.road.po.QiaoMu">
+        SELECT * FROM
+        r_qiaomu r
+        ORDER BY r.`ls_id` DESC  LIMIT #{snep},#{ps}
+    </select>
+    <select id="getQiaoMusAll" resultType="com.suhang.road.po.QiaoMu">
+        SELECT * FROM r_qiaomu
+    </select>
+    <select id="getQiaoMusByBlock" parameterType="String" resultType="com.suhang.road.po.QiaoMu">
+        SELECT * FROM r_qiaomu where ls_block = #{block}
+    </select>
+    <select id="findQiaoMuById" parameterType="Integer" resultType="com.suhang.road.po.QiaoMu">
+        select * from r_qiaomu WHERE ls_id = #{ls_id}
+    </select>
+    <select id="findCountAll" resultType="Integer">
+        select count(*) FROM r_qiaomu
+    </select>
+    <select id="findCountByBlock" parameterType="String" resultType="Integer">
+        select count(*) FROM r_qiaomu WHERE ls_block = #{block}
+    </select>
+    <update id="updateQiaoMuList" parameterType="java.util.List">
+        <foreach collection="list" item="single" index="index" open="" close="" separator=";">
+            UPDATE r_qiaomu r
+            <set>
+                r.`ls_logo`=#{single.ls_logo},r.`ls_name`=#{single.ls_name},r.`ls_location`=#{single.ls_location},
+                r.`ls_type`=#{single.ls_type},r.`ls_kind`=#{single.ls_kind},
+                r.`ls_num`=#{single.ls_num},r.`ls_year`=#{single.ls_year},r.`ls_block`=#{single.ls_block}
+            </set>
+            where r.`ls_id`=#{single.ls_id}
+        </foreach>
+    </update>
+    <delete id="deleteQiaoMusByIds" parameterType="String">
+        delete from r_qiaomu where ls_id IN
+        <foreach collection="array" item="ls_id" open="(" close=")" separator=",">
+            #{ls_id}
+        </foreach>
+    </delete>
+    <insert id="insertQiaoMu" parameterType="com.suhang.road.po.QiaoMu">
+        INSERT into r_qiaomu() VALUES (#{ls_id},#{ls_logo},#{ls_name},#{ls_location},#{ls_type},
+        #{ls_kind},#{ls_num},
+        #{ls_year},
+        #{ls_block})
+    </insert>
+</mapper>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.ZiXingJiaMapper">
+    <select id="findZiXingJiasByBlock" parameterType="com.suhang.road.povo.ZiXingJiaVo" resultType="com.suhang.road.po.ZiXingJia">
+        SELECT * FROM
+        r_zixingjia r
+        WHERE
+        r.`cj_block`=#{block}
+        ORDER BY r.`cj_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findZiXingJiasAll" parameterType="com.suhang.road.povo.ZiXingJiaVo" resultType="com.suhang.road.po.ZiXingJia">
+        SELECT * FROM
+        r_zixingjia r
+        ORDER BY r.`cj_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findZiXingById" parameterType="Integer" resultType="com.suhang.road.po.ZiXingJia">
+        SELECT * from r_zixingjia WHERE cj_id = #{cj_id}
+    </select>
+    <select id="getZiXingJiasAll" resultType="com.suhang.road.po.ZiXingJia">
+        select * from r_zixingjia
+    </select>
+    <select id="getZiXingJiasByBlock" parameterType="String" resultType="com.suhang.road.po.ZiXingJia">
+        select * from r_zixingjia WHERE cj_block = #{block}
+    </select>
+    <select id="findCountAll" resultType="Integer">
+        SELECT count(*) FROM r_zixingjia
+    </select>
+    <select id="findCountByBlock" parameterType="String" resultType="Integer">
+        SELECT count(*) FROM  r_zixingjia WHERE cj_block = #{block}
+    </select>
+    <update id="updateZiXingJiaList" parameterType="java.util.List">
+        <foreach collection="list" item="single" index="index" open="" close="" separator=";">
+            UPDATE r_zixingjia r
+            <set>
+                r.`cj_logo`=#{single.cj_logo},r.`cj_name`=#{single.cj_name},r.`cj_location`=#{single.cj_location},
+                r.`cj_size`=#{single.cj_size},r.`cj_kind`=#{single.cj_kind},
+                r.`cj_num`=#{single.cj_num},r.`cj_capacity`=#{single.cj_capacity},r.`cj_block`=#{single.cj_block}
+            </set>
+            where r.`cj_id`=#{single.cj_id}
+        </foreach>
+    </update>
+    <delete id="deleteZiXingJiasByIds" parameterType="String">
+        delete from r_zixingjia where cj_id IN
+        <foreach collection="array" item="cj_id" open="(" close=")" separator=",">
+            #{cj_id}
+        </foreach>
+    </delete>
+    <insert id="insertZiXingJia" parameterType="com.suhang.road.po.ZiXingJia">
+        INSERT into r_zixingjia() VALUES (#{cj_id},#{cj_logo},#{cj_name},#{cj_location},#{cj_size},
+        #{cj_kind},#{cj_num},
+        #{cj_capacity},
+        #{cj_block})
+    </insert>
+</mapper>

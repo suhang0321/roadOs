@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.ShuiXiMapper">
+    <select id="findShuiXisByBlock" parameterType="com.suhang.road.povo.ShuiXiVo" resultType="com.suhang.road.po.ShuiXi">
+        SELECT * FROM
+        r_shuixi r
+        WHERE
+        r.`sx_block`=#{block}
+        ORDER BY r.`sx_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findShuiXisAll" parameterType="com.suhang.road.povo.ShuiXiVo" resultType="com.suhang.road.po.ShuiXi">
+        SELECT * FROM
+        r_shuixi r
+        ORDER BY r.`sx_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findShuiXiById" parameterType="Integer" resultType="com.suhang.road.po.ShuiXi">
+        select * FROM  r_shuixi WHERE sx_id=#{sx_id}
+    </select>
+    <select id="getShuiXisAll" resultType="com.suhang.road.po.ShuiXi">
+        select * FROM r_shuixi
+    </select>
+    <select id="getShuiXisByBlock" parameterType="String" resultType="com.suhang.road.po.ShuiXi">
+        SELECT * from r_shuixi WHERE sx_block = #{block}
+    </select>
+    <select id="findCountAll" resultType="Integer">
+        SELECT count(*) from r_shuixi
+    </select>
+    <select id="findCountByBlock" parameterType="String" resultType="Integer">
+        SELECT count(*) from r_shuixi WHERE sx_block = #{block}
+    </select>
+    <update id="updateShuiXiList" parameterType="java.util.List">
+        <foreach collection="list" item="single" index="index" open="" close="" separator=";">
+            UPDATE r_shuixi r
+            <set>
+                r.`sx_logo`=#{single.sx_logo},r.`sx_name`=#{single.sx_name},r.`sx_location`=#{single.sx_location},
+                r.`sx_unit`=#{single.sx_unit},r.`sx_type`=#{single.sx_type},
+                r.`sx_num`=#{single.sx_num},r.`sx_year`=#{single.sx_year},r.`sx_block`=#{single.sx_block}
+            </set>
+            where r.`sx_id`=#{single.sx_id}
+        </foreach>
+    </update>
+    <delete id="deleteShuiXisByIds" parameterType="String">
+        delete from r_shuixi where sx_id IN
+        <foreach collection="array" item="sx_id" open="(" close=")" separator=",">
+            #{sx_id}
+        </foreach>
+    </delete>
+    <insert id="insertShuiXi" parameterType="com.suhang.road.po.ShuiXi">
+        INSERT into r_shuixi() VALUES (#{sx_id},#{sx_logo},#{sx_name},#{sx_location},#{sx_unit},
+        #{sx_type},#{sx_num},
+        #{sx_year},
+        #{sx_block})
+    </insert>
+</mapper>

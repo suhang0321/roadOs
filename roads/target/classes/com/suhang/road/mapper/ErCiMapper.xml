@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.ErCiMapper">
+    <select id="findErCisByBlock" parameterType="com.suhang.road.povo.ErCiGongShuiVo" resultType="com.suhang.road.po.ErCiGongShui">
+        SELECT * FROM
+        r_ercigongshui r
+        WHERE
+        r.`sj_block`=#{block}
+        ORDER BY r.`sj_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findErCisAll" parameterType="com.suhang.road.povo.ErCiGongShuiVo" resultType="com.suhang.road.po.ErCiGongShui">
+        SELECT * FROM
+        r_ercigongshui r
+        ORDER BY r.`sj_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="getErCisAll" resultType="com.suhang.road.po.ErCiGongShui">
+        SELECT * FROM r_ercigongshui
+    </select>
+    <select id="findErCiById" parameterType="Integer" resultType="com.suhang.road.po.ErCiGongShui">
+        select * FROM r_ercigongshui WHERE sj_id=#{sj_id}
+    </select>
+    <select id="getErCisByBlock" parameterType="String" resultType="com.suhang.road.po.ErCiGongShui">
+        SELECT * FROM r_ercigongshui WHERE sj_block = #{block}
+    </select>
+    <select id="findCountAll" resultType="Integer">
+        SELECT count(*) from r_ercigongshui
+    </select>
+    <select id="findCountByBlock" parameterType="String" resultType="Integer">
+        SELECT count(*) from r_ercigongshui WHERE sj_block = #{block}
+    </select>
+    <update id="updateErCiList" parameterType="java.util.List">
+        <foreach collection="list" item="single" index="index" open="" close="" separator=";">
+            UPDATE r_ercigongshui r
+            <set>
+                r.`sj_logo`=#{single.sj_logo},r.`sj_name`=#{single.sj_name},r.`sj_location`=#{single.sj_location},
+                r.`sj_unit`=#{single.sj_unit},r.`sj_type`=#{single.sj_type},
+                r.`sj_num`=#{single.sj_num},r.`sj_year`=#{single.sj_year},r.`sj_block`=#{single.sj_block}
+            </set>
+            where r.`sj_id`=#{single.sj_id}
+        </foreach>
+    </update>
+    <delete id="deleteErCisByIds" parameterType="String">
+        delete from r_ercigongshui where sj_id IN
+        <foreach collection="array" item="sj_id" open="(" close=")" separator=",">
+            #{sj_id}
+        </foreach>
+    </delete>
+    <insert id="insertErCi" parameterType="com.suhang.road.po.ErCiGongShui">
+        INSERT into r_ercigongshui() VALUES (#{sj_id},#{sj_logo},#{sj_name},#{sj_location},#{sj_unit},
+        #{sj_type},#{sj_num},
+        #{sj_year},
+        #{sj_block})
+    </insert>
+</mapper>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.LuoYeQiaoMuMapper">
+    <select id="findLuoYeQiaoMusByBlock" parameterType="com.suhang.road.povo.LuoYeQiaoMuVo" resultType="com.suhang.road.po.LuoYeQiaoMu">
+        SELECT * FROM
+        r_luoyeqiaomu r
+        WHERE
+        r.`qm_block`=#{block}
+        ORDER BY r.`qm_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findLuoYeQiaoMusAll"  parameterType="com.suhang.road.povo.LuoYeQiaoMuVo" resultType="com.suhang.road.po.LuoYeQiaoMu">
+        SELECT * FROM
+        r_luoyeqiaomu r
+        ORDER BY r.`qm_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findLuoYeById" parameterType="Integer" resultType="com.suhang.road.po.LuoYeQiaoMu">
+        select * FROM r_luoyeqiaomu WHERE qm_id = #{qm_id}
+    </select>
+    <select id="getLuoYesAll" resultType="com.suhang.road.po.LuoYeQiaoMu">
+        SELECT * FROM r_luoyeqiaomu
+    </select>
+    <select id="getLuoYesByBlock" parameterType="String" resultType="com.suhang.road.po.LuoYeQiaoMu">
+        SELECT * FROM r_luoyeqiaomu WHERE qm_block = #{block}
+    </select>
+    <select id="findCountAll" resultType="Integer">
+        select count(*) FROM  r_luoyeqiaomu
+    </select>
+    <select id="findCountByBlock" parameterType="String" resultType="Integer">
+                select count(*) FROM  r_luoyeqiaomu WHERE qm_block=#{block}
+    </select>
+    <update id="updateLuoYeQiaoMuList" parameterType="java.util.List">
+        <foreach collection="list" item="single" index="index" open="" close="" separator=";">
+            UPDATE r_luoyeqiaomu r
+            <set>
+                r.`qm_logo`=#{single.qm_logo},r.`qm_name`=#{single.qm_name},r.`qm_location`=#{single.qm_location},
+                r.`qm_type`=#{single.qm_type},r.`qm_kind`=#{single.qm_kind},
+                r.`qm_num`=#{single.qm_num},r.`qm_year`=#{single.qm_year},r.`qm_block`=#{single.qm_block}
+            </set>
+            where r.`qm_id`=#{single.qm_id}
+        </foreach>
+    </update>
+    <delete id="deleteLuoYeQiaoMusByIds" parameterType="String">
+        delete from r_luoyeqiaomu where qm_id IN
+        <foreach collection="array" item="qm_id" open="(" close=")" separator=",">
+            #{qm_id}
+        </foreach>
+    </delete>
+    <insert id="insertLuoYeQiaoMu" parameterType="com.suhang.road.po.LuoYeQiaoMu">
+        INSERT into r_luoyeqiaomu() VALUES (#{qm_id},#{qm_logo},#{qm_name},#{qm_location},#{qm_type},
+        #{qm_kind},#{qm_num},
+        #{qm_year},
+        #{qm_block})
+    </insert>
+</mapper>

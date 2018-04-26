@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.BaiYouMapper">
+    <select id="findBaiYousByBlock" parameterType="com.suhang.road.povo.BaiYouVo" resultType="com.suhang.road.po.BaiYou">
+       select * from
+        r_baiyou b
+        WHERE
+        b.by_block = #{block}
+        ORDER BY b.by_id DESC LIMIT #{snep},#{ps}
+
+    </select>
+    <select id="findBaiYouById" parameterType="Integer" resultType="com.suhang.road.po.BaiYou">
+        SELECT * from r_baiyou where by_id = #{by_id}
+    </select>
+    <select id="findBaiYousAll"  parameterType="com.suhang.road.povo.BaiYouVo" resultType="com.suhang.road.po.BaiYou">
+        select * from
+        r_baiyou
+        ORDER BY by_id DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findBaiYousAll1" resultType="com.suhang.road.po.BaiYou">
+        SELECT * from r_baiyou ORDER  BY by_id DESC
+    </select>
+    <select id="findBaiYousByBlock1" parameterType="String" resultType="com.suhang.road.po.BaiYou">
+        SELECT  * FROM r_baiyou where by_block = #{block} ORDER BY by_id DESC
+    </select>
+    <select id="findCountAll" resultType="Integer">
+        select count(*) from
+        r_baiyou
+    </select>
+    <select id="findCountByBlock" parameterType="String" resultType="Integer">
+         select count(*) from
+         r_baiyou
+         where
+         by_block = #{block}
+    </select>
+    <update id="updateBaiYouList" parameterType="java.util.List">
+        <foreach collection="list" item="single" index="index" open="" close="" separator=";">
+            UPDATE r_baiyou b
+            <set>
+                b.`by_logo`=#{single.by_logo},b.`by_name`=#{single.by_name},b.`by_direction`=#{single.by_direction},
+                b.`by_length`=#{single.by_length},b.`by_width`=#{single.by_width},
+                b.`by_area`=#{single.by_area},b.`by_block`=#{single.by_block}
+            </set>
+            where b.`by_id`=#{single.by_id}
+        </foreach>
+    </update>
+    <delete id="deleteBaiYousByIds" parameterType="String">
+        delete from r_baiyou where by_id IN
+        <foreach collection="array" item="by_id" open="(" close=")" separator=",">
+            #{by_id}
+        </foreach>
+    </delete>
+    <insert id="insertBaiYou" parameterType="com.suhang.road.po.BaiYou">
+        INSERT into r_baiyou() VALUES (#{by_id},#{by_logo},#{by_name},#{by_direction},#{by_length},#{by_width},
+        #{by_area},#{by_block})
+    </insert>
+</mapper>

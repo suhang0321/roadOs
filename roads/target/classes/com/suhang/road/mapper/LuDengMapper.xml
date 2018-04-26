@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.LuDengMapper">
+    <select id="findLuDengsByBlock" parameterType="com.suhang.road.povo.LuDengVo" resultType="com.suhang.road.po.LuDeng">
+        SELECT * FROM
+        r_ludeng r
+        WHERE
+        r.`ld_block`=#{block}
+        ORDER BY r.`ld_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findLuDengsAll" parameterType="com.suhang.road.povo.LuDengVo" resultType="com.suhang.road.po.LuDeng">
+        SELECT * FROM
+        r_ludeng r
+        ORDER BY r.`ld_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findCountAll" resultType="Integer">
+        SELECT count(*) from r_ludeng
+    </select>
+    <select id="findLuDengById" parameterType="Integer" resultType="com.suhang.road.po.LuDeng">
+        SELECT * from r_ludeng WHERE ld_id = #{ld_id}
+    </select>
+    <select id="findCountByBlock" parameterType="String" resultType="Integer">
+        SELECT count(*) from r_ludeng WHERE ld_block = #{block}
+    </select>
+    <update id="updateLuDengList" parameterType="java.util.List">
+        <foreach collection="list" item="single" index="index" open="" close="" separator=";">
+            UPDATE r_ludeng r
+            <set>
+                r.`ld_logo`=#{single.ld_logo},r.`ld_name`=#{single.ld_name},r.`ld_location`=#{single.ld_location},
+                r.`ld_distance`=#{single.ld_distance},r.`ld_type`=#{single.ld_type},
+                r.`ld_num`=#{single.ld_num},r.`ld_year`=#{single.ld_year},r.`ld_block`=#{single.ld_block}
+            </set>
+            where r.`ld_id`=#{single.ld_id}
+        </foreach>
+    </update>
+    <delete id="deleteLuDengsByIds" parameterType="String">
+        delete from r_ludeng where ld_id IN
+        <foreach collection="array" item="ld_id" open="(" close=")" separator=",">
+            #{ld_id}
+        </foreach>
+    </delete>
+    <insert id="insertLuDeng" parameterType="com.suhang.road.po.LuDeng">
+        INSERT into r_ludeng() VALUES (#{ld_id},#{ld_logo},#{ld_name},#{ld_location},#{ld_distance},
+        #{ld_type},#{ld_num},
+        #{ld_year},
+        #{ld_block})
+    </insert>
+</mapper>

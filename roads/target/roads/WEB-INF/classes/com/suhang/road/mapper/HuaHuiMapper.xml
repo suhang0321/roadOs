@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.HuaHuiMapper">
+    <select id="findHuaHuisByBlock" parameterType="com.suhang.road.povo.HuaHuiVo" resultType="com.suhang.road.po.HuaHui">
+        SELECT * FROM
+        r_huahui r
+        WHERE
+        r.`hh_block`=#{block}
+        ORDER BY r.`hh_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findHuaHuisAll"  parameterType="com.suhang.road.povo.HuaHuiVo" resultType="com.suhang.road.po.HuaHui">
+        SELECT * FROM
+        r_huahui r
+        ORDER BY r.`hh_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findHuaHuiById" parameterType="Integer" resultType="com.suhang.road.po.HuaHui">
+        SELECT * FROM r_huahui WHERE hh_id = #{hh_id}
+    </select>
+   <select id="getHuaHuisAll" resultType="com.suhang.road.po.HuaHui">
+       SELECT * FROM  r_huahui
+   </select>
+    <select id="getHuaHuisByBlock" parameterType="String" resultType="com.suhang.road.po.HuaHui">
+        SELECT * FROM r_huahui WHERE hh_block = #{block}
+    </select>
+    <select id="findCountAll" resultType="Integer">
+        SELECT count(*) FROM r_huahui
+    </select>
+    <select id="findCountByBlock" parameterType="String" resultType="Integer">
+        SELECT count(*) FROM r_huahui WHERE hh_block = #{block}
+    </select>
+    <update id="updateHuaHuiList" parameterType="java.util.List">
+        <foreach collection="list" item="single" index="index" open="" close="" separator=";">
+            UPDATE r_huahui r
+            <set>
+                r.`hh_logo`=#{single.hh_logo},r.`hh_name`=#{single.hh_name},r.`hh_location`=#{single.hh_location},
+                r.`hh_type`=#{single.hh_type},r.`hh_kind`=#{single.hh_kind},
+                r.`hh_num`=#{single.hh_num},r.`hh_resource`=#{single.hh_resource},r.`hh_block`=#{single.hh_block}
+            </set>
+            where r.`hh_id`=#{single.hh_id}
+        </foreach>
+    </update>
+    <delete id="deleteHuaHuisByIds" parameterType="String">
+        delete from r_huahui where hh_id IN
+        <foreach collection="array" item="hh_id" open="(" close=")" separator=",">
+            #{hh_id}
+        </foreach>
+    </delete>
+    <insert id="insertHuaHui" parameterType="com.suhang.road.po.HuaHui">
+        INSERT into r_huahui() VALUES (#{hh_id},#{hh_logo},#{hh_name},#{hh_location},#{hh_type},
+        #{hh_kind},#{hh_num},
+        #{hh_resource},
+        #{hh_block})
+    </insert>
+</mapper>

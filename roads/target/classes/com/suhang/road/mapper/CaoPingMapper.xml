@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.CaoPingMapper">
+    <select id="findCaoPingsByBlock" parameterType="com.suhang.road.povo.CaoPingVo" resultType="com.suhang.road.po.CaoPing">
+        SELECT * FROM
+        r_caoping r
+        WHERE
+        r.`cp_block`=#{block}
+        ORDER BY r.`cp_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findCaoPingsAll" parameterType="com.suhang.road.povo.CaoPingVo" resultType="com.suhang.road.po.CaoPing">
+        SELECT * FROM
+        r_caoping r
+        ORDER BY r.`cp_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findCaoPingById" parameterType="Integer" resultType="com.suhang.road.po.CaoPing">
+        SELECT * from r_caoping WHERE cp_id = #{cp_id}
+    </select>
+    <select id="getCaoPingsAll" resultType="com.suhang.road.po.CaoPing">
+        SELECT * from r_caoping
+    </select>
+    <select id="getCaoPingsByBlock" parameterType="String" resultType="com.suhang.road.po.CaoPing">
+        select * from r_caoping WHERE cp_block = #{block}
+    </select>
+    <select id="findCountAll" resultType="Integer">
+        SELECT count(*) from r_caoping
+    </select>
+    <select id="findCountByBlock" parameterType="String" resultType="Integer">
+        SELECT count(*) FROM r_caoping WHERE cp_block = #{block}
+    </select>
+    <update id="updateCaoPingList" parameterType="java.util.List">
+        <foreach collection="list" item="single" index="index" open="" close="" separator=";">
+            UPDATE r_caoping r
+            <set>
+                r.`cp_logo`=#{single.cp_logo},r.`cp_name`=#{single.cp_name},r.`cp_location`=#{single.cp_location},
+                r.`cp_direction`=#{single.cp_direction},r.`cp_length`=#{single.cp_length},
+                r.`cp_width`=#{single.cp_width},r.`cp_area`=#{single.cp_area},r.`cp_block`=#{single.cp_block}
+            </set>
+            where r.`cp_id`=#{single.cp_id}
+        </foreach>
+    </update>
+    <delete id="deleteCaoPingsByIds" parameterType="String">
+        delete from r_caoping where cp_id IN
+        <foreach collection="array" item="cp_id" open="(" close=")" separator=",">
+            #{cp_id}
+        </foreach>
+    </delete>
+    <insert id="insertCaoPing" parameterType="com.suhang.road.po.CaoPing">
+        INSERT into r_caoping() VALUES (#{cp_id},#{cp_logo},#{cp_name},#{cp_location},#{cp_direction},#{cp_length},#{cp_width},
+        #{cp_area},
+        #{cp_block})
+    </insert>
+</mapper>

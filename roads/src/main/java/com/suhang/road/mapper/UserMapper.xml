@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.UserMapper">
+    <select id="findUserByUid" parameterType="String" resultType="com.suhang.road.po.UserCustom">
+        SELECT * FROM
+        `user`
+        WHERE
+        uid = #{uid}
+    </select>
+    <select id="findUserByNamePassAndBlock" parameterType="com.suhang.road.po.UserCustom" resultType="com.suhang.road.po.User">
+        select *
+        from
+        `user` u
+        WHERE
+        u.loginname =#{loginname}
+        and u.loginpass = #{loginpass}
+        and u.block = #{block}
+    </select>
+
+    <select id="findUsersAll" resultType="com.suhang.road.po.User">
+           select * from `user`
+            ORDER BY uid
+    </select>
+
+    <update id="updateNameAndPassByUid" parameterType="Map">
+        UPDATE user u
+        set
+        u.loginname=#{loginname},
+        u.loginpass = #{loginpass}
+        WHERE
+        u.uid= #{uid}
+
+    </update>
+</mapper>

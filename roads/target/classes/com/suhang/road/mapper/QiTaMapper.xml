@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.QiTaMapper">
+    <select id="findQiTasByBlock" parameterType="com.suhang.road.povo.QiTaVo" resultType="com.suhang.road.po.QiTa">
+        SELECT * FROM
+        r_qita r
+        WHERE
+        r.`qt_block`=#{block}
+        ORDER BY r.`qt_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findQiTasAll" parameterType="com.suhang.road.povo.QiTaVo" resultType="com.suhang.road.po.QiTa">
+        SELECT * FROM
+        r_qita r
+        ORDER BY r.`qt_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findCountAll" resultType="Integer">
+        SELECT count(*) from r_qita
+    </select>
+    <select id="findQiTaById" parameterType="Integer" resultType="com.suhang.road.po.QiTa">
+        SELECT * FROM r_qita WHERE qt_id = #{qt_id}
+    </select>
+    <select id="findCountByBlock" parameterType="String" resultType="Integer">
+        SELECT count(*) from r_qita WHERE qt_block = #{block}
+    </select>
+    <update id="updateQiTaList" parameterType="java.util.List">
+        <foreach collection="list" item="single" index="index" open="" close="" separator=";">
+            UPDATE r_qita r
+            <set>
+                r.`qt_logo`=#{single.qt_logo},r.`qt_name`=#{single.qt_name},r.`qt_unit`=#{single.qt_unit},
+                r.`qt_location`=#{single.qt_location},r.`qt_type`=#{single.qt_type},
+                r.`qt_block`=#{single.qt_block}
+            </set>
+            where r.`qt_id`=#{single.qt_id}
+        </foreach>
+    </update>
+    <delete id="deleteQiTasByIds" parameterType="String">
+        delete from r_qita where qt_id IN
+        <foreach collection="array" item="qt_id" open="(" close=")" separator=",">
+            #{qt_id}
+        </foreach>
+    </delete>
+    <insert id="insertQiTa" parameterType="com.suhang.road.po.QiTa">
+        INSERT into r_qita() VALUES (#{qt_id},#{qt_logo},#{qt_name},#{qt_unit},#{qt_location},
+        #{qt_type},#{qt_block})
+    </insert>
+</mapper>

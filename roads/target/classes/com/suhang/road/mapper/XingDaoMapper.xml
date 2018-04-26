@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.XingDaoMapper">
+    <select id="findXingDaosByBlock" parameterType="com.suhang.road.povo.XingDaoShuVo" resultType="com.suhang.road.po.XingDaoShu">
+        SELECT * FROM
+        r_xingdaoshu r
+        WHERE
+        r.`xd_block`=#{block}
+        ORDER BY r.`xd_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findXingDaosAll" parameterType="com.suhang.road.povo.XingDaoShuVo"  resultType="com.suhang.road.po.XingDaoShu">
+        SELECT * FROM
+        r_xingdaoshu r
+        ORDER BY r.`xd_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findXingDaoById" parameterType="Integer" resultType="com.suhang.road.po.XingDaoShu">
+        SELECT * from r_xingdaoshu WHERE xd_id=#{xd_id}
+    </select>
+    <select id="getXingDaosAll" resultType="com.suhang.road.po.XingDaoShu">
+        SELECT * FROM r_xingdaoshu
+    </select>
+    <select id="getXingDaosByBlock" parameterType="String" resultType="com.suhang.road.po.XingDaoShu">
+        SELECT * FROM r_xingdaoshu WHERE xd_block = #{block}
+    </select>
+    <select id="findCountAll" resultType="Integer">
+        SELECT count(*) FROM r_xingdaoshu
+    </select>
+    <select id="findCountByBlock" parameterType="String" resultType="Integer">
+        SELECT  COUNT(*) FROM r_xingdaoshu WHERE xd_block=#{block}
+    </select>
+    <update id="updateXingDaoList" parameterType="java.util.List">
+        <foreach collection="list" item="single" index="index" open="" close="" separator=";">
+            UPDATE r_xingdaoshu r
+            <set>
+                r.`xd_logo`=#{single.xd_logo},r.`xd_name`=#{single.xd_name},r.`xd_location`=#{single.xd_location},
+                r.`xd_direction`=#{single.xd_direction},r.`xd_kind`=#{single.xd_kind},
+                r.`xd_num`=#{single.xd_num},r.`xd_year`=#{single.xd_year},r.`xd_block`=#{single.xd_block}
+            </set>
+            where r.`xd_id`=#{single.xd_id}
+        </foreach>
+    </update>
+    <delete id="deleteXingDaosByIds" parameterType="String">
+        delete from r_xingdaoshu where xd_id IN
+        <foreach collection="array" item="xd_id" open="(" close=")" separator=",">
+            #{xd_id}
+        </foreach>
+    </delete>
+    <insert id="insertXingDao" parameterType="com.suhang.road.po.XingDaoShu">
+        INSERT into r_xingdaoshu() VALUES (#{xd_id},#{xd_logo},#{xd_name},#{xd_location},#{xd_direction},
+        #{xd_kind},#{xd_num},
+        #{xd_year},
+        #{xd_block})
+    </insert>
+</mapper>

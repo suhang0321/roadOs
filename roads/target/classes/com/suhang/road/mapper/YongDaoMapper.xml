@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.YongDaoMapper">
+    <select id="findYongDaosByBlock" parameterType="com.suhang.road.povo.YongDaoVo" resultType="com.suhang.road.po.YongDao">
+        SELECT * FROM
+        r_yongdao y
+        WHERE
+        y.`yd_block`=#{block}
+        ORDER BY y.`yd_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findYongDaosAll" parameterType="com.suhang.road.povo.YongDaoVo" resultType="com.suhang.road.po.YongDao">
+        SELECT * FROM
+        r_yongdao y
+        ORDER BY y.`yd_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findYongDaoById" parameterType="Integer" resultType="com.suhang.road.po.YongDao">
+        select * from r_yongdao WHERE yd_id=#{yd_id}
+    </select>
+    <select id="getYongDaosAll" resultType="com.suhang.road.po.YongDao">
+        SELECT * FROM r_yongdao
+    </select>
+    <select id="getYongDaosByBlock" parameterType="String" resultType="com.suhang.road.po.YongDao">
+        SELECT  * from r_yongdao where yd_block=#{block}
+    </select>
+    <select id="findCountAll" resultType="Integer">
+        SELECT count(*) FROM r_yongdao
+    </select>
+    <select id="findCountByBlock" parameterType="String" resultType="Integer">
+        SELECT COUNT(*) from r_yongdao WHERE yd_block=#{block}
+    </select>
+    <update id="updateYongDaoList" parameterType="java.util.List">
+        <foreach collection="list" item="single" index="index" open="" close="" separator=";">
+            UPDATE r_yongdao y
+            <set>
+                y.`yd_logo`=#{single.yd_logo},y.`yd_name`=#{single.yd_name},y.`yd_location`=#{single.yd_location},
+                y.`yd_direction`=#{single.yd_direction},y.`yd_length`=#{single.yd_length},
+                y.`yd_width`=#{single.yd_width},y.`yd_area`=#{single.yd_area},y.`yd_block`=#{single.yd_block}
+            </set>
+            where y.`yd_id`=#{single.yd_id}
+        </foreach>
+    </update>
+    <delete id="deleteYongDaosByIds" parameterType="String">
+        delete from r_yongdao where yd_id IN
+        <foreach collection="array" item="yd_id" open="(" close=")" separator=",">
+            #{yd_id}
+        </foreach>
+    </delete>
+    <insert id="insertYongDao" parameterType="com.suhang.road.po.YongDao">
+        INSERT into r_yongdao() VALUES (#{yd_id},#{yd_logo},#{yd_name},#{yd_location},#{yd_direction},#{yd_length},#{yd_width},
+        #{yd_area},
+        #{yd_block})
+    </insert>
+</mapper>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.GuoPiXiangMapper">
+    <select id="findGuoPiXiangsByBlock" parameterType="com.suhang.road.povo.GuoPiXiangVo" resultType="com.suhang.road.po.GuoPiXiang">
+        SELECT * FROM
+        r_guopixiang r
+        WHERE
+        r.`px_block`=#{block}
+        ORDER BY r.`px_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findGuoPiXiangsAll" parameterType="com.suhang.road.povo.GuoPiXiangVo" resultType="com.suhang.road.po.GuoPiXiang">
+        SELECT * FROM
+        r_guopixiang r
+        ORDER BY r.`px_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findGuoPiXiangById" parameterType="Integer" resultType="com.suhang.road.po.GuoPiXiang">
+        SELECT * FROM r_guopixiang WHERE px_id = #{px_id}
+    </select>
+    <select id="getGuoPiXiangsAll" resultType="com.suhang.road.po.GuoPiXiang">
+        SELECT * from r_guopixiang
+    </select>
+    <select id="getGuoPiXiangsByBlock" parameterType="String" resultType="com.suhang.road.po.GuoPiXiang">
+        SELECT * from r_guopixiang WHERE px_block = #{block}
+    </select>
+    <select id="findCountAll" resultType="Integer">
+        SELECT count(*) FROM r_guopixiang
+    </select>
+    <select id="findCountByBlock" parameterType="String" resultType="Integer">
+        SELECT  count(*) FROM r_guopixiang WHERE px_block = #{block}
+    </select>
+    <update id="updateGuoPiXiangList" parameterType="java.util.List">
+        <foreach collection="list" item="single" index="index" open="" close="" separator=";">
+            UPDATE r_guopixiang r
+            <set>
+                r.`px_logo`=#{single.px_logo},r.`px_name`=#{single.px_name},r.`px_location`=#{single.px_location},
+                r.`px_distance`=#{single.px_distance},r.`px_kind`=#{single.px_kind},
+                r.`px_num`=#{single.px_num},r.`px_year`=#{single.px_year},r.`px_block`=#{single.px_block}
+            </set>
+            where r.`px_id`=#{single.px_id}
+        </foreach>
+    </update>
+    <delete id="deleteGuoPiXiangsByIds" parameterType="String">
+        delete from r_guopixiang where px_id IN
+        <foreach collection="array" item="px_id" open="(" close=")" separator=",">
+            #{px_id}
+        </foreach>
+    </delete>
+    <insert id="insertGuoPiXiang" parameterType="com.suhang.road.po.GuoPiXiang">
+        INSERT into r_guopixiang() VALUES (#{px_id},#{px_logo},#{px_name},#{px_location},#{px_distance},
+        #{px_kind},#{px_num},
+        #{px_year},
+        #{px_block})
+    </insert>
+</mapper>

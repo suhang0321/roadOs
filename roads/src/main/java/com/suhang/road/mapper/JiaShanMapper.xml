@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.JiaShanMapper">
+    <select id="findJiaShansByBlock" parameterType="com.suhang.road.povo.JiaShanVo" resultType="com.suhang.road.po.JiaShan">
+        SELECT * FROM
+        r_jiashan r
+        WHERE
+        r.`js_block`=#{block}
+        ORDER BY r.`js_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findJiaShansAll" parameterType="com.suhang.road.povo.JiaShanVo" resultType="com.suhang.road.po.JiaShan">
+        SELECT * FROM
+        r_jiashan r
+        ORDER BY r.`js_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findJiaShanById" parameterType="Integer" resultType="com.suhang.road.po.JiaShan">
+        select * from r_jiashan WHERE js_id=#{js_id}
+    </select>
+    <select id="getJiaShansAll" resultType="com.suhang.road.po.JiaShan">
+        select * from r_jiashan 
+    </select>
+    <select id="getJiaShansByBlock" parameterType="String" resultType="com.suhang.road.po.JiaShan">
+        SELECT * from r_jiashan WHERE js_block = #{block}
+    </select>
+    <select id="findCountAll" resultType="Integer">
+        SELECT count(*) from r_jiashan
+    </select>
+    <select id="findCountByBlock" parameterType="String" resultType="Integer">
+        SELECT count(*) from r_jiashan WHERE js_block = #{block}
+    </select>
+    <update id="updateJiaShanList" parameterType="java.util.List">
+        <foreach collection="list" item="single" index="index" open="" close="" separator=";">
+            UPDATE r_jiashan r
+            <set>
+                r.`js_logo`=#{single.js_logo},r.`js_name`=#{single.js_name},r.`js_location`=#{single.js_location},
+                r.`js_unit`=#{single.js_unit},r.`js_type`=#{single.js_type},
+                r.`js_num`=#{single.js_num},r.`js_year`=#{single.js_year},r.`js_block`=#{single.js_block}
+            </set>
+            where r.`js_id`=#{single.js_id}
+        </foreach>
+    </update>
+    <delete id="deleteJiaShansByIds" parameterType="String">
+        delete from r_jiashan where js_id IN
+        <foreach collection="array" item="js_id" open="(" close=")" separator=",">
+            #{js_id}
+        </foreach>
+    </delete>
+    <insert id="insertJiaShan" parameterType="com.suhang.road.po.JiaShan">
+        INSERT into r_jiashan() VALUES (#{js_id},#{js_logo},#{js_name},#{js_location},#{js_unit},
+        #{js_type},#{js_num},
+        #{js_year},
+        #{js_block})
+    </insert>
+</mapper>

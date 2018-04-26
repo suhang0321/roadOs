@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.LvDiMapper">
+    <select id="findLvDisByBlock" parameterType="com.suhang.road.povo.LvDiVo" resultType="com.suhang.road.po.LvDi">
+        SELECT * FROM
+        r_lvdi r
+        WHERE
+        r.`ld_block`=#{block}
+        ORDER BY r.`ld_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findLvDisAll" parameterType="com.suhang.road.povo.LvDiVo"  resultType="com.suhang.road.po.LvDi">
+        SELECT * FROM
+        r_lvdi r
+        ORDER BY r.`ld_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findLvDiById" parameterType="Integer" resultType="com.suhang.road.po.LvDi">
+        SELECT * FROM r_lvdi WHERE ld_id = #{ld_id}
+    </select>
+    <select id="getLvDisAll" resultType="com.suhang.road.po.LvDi">
+        SELECT * FROM r_lvdi
+    </select>
+    <select id="getLvDisByBlock" parameterType="String" resultType="com.suhang.road.po.LvDi">
+        SELECT * FROM r_lvdi WHERE ld_block = #{block}
+    </select>
+    <select id="findCountAll" resultType="Integer">
+        SELECT count(*) FROM r_lvdi
+    </select>
+    <select id="findCountByBlock" parameterType="String" resultType="Integer">
+        select COUNT(*) FROM r_lvdi WHERE ld_block = #{block}
+    </select>
+    <update id="updateLvDiList" parameterType="java.util.List">
+        <foreach collection="list" item="single" index="index" open="" close="" separator=";">
+            UPDATE r_lvdi r
+            <set>
+                r.`ld_logo`=#{single.ld_logo},r.`ld_name`=#{single.ld_name},r.`ld_location`=#{single.ld_location},
+                r.`ld_direction`=#{single.ld_direction},r.`ld_length`=#{single.ld_length},
+                r.`ld_width`=#{single.ld_width},r.`ld_area`=#{single.ld_area},r.`ld_block`=#{single.ld_block}
+            </set>
+            where r.`ld_id`=#{single.ld_id}
+        </foreach>
+    </update>
+    <delete id="deleteLvDisByIds" parameterType="String">
+        delete from r_lvdi where ld_id IN
+        <foreach collection="array" item="ld_id" open="(" close=")" separator=",">
+            #{ld_id}
+        </foreach>
+    </delete>
+    <insert id="insertLvDi" parameterType="com.suhang.road.po.LvDi">
+        INSERT into r_lvdi() VALUES (#{ld_id},#{ld_logo},#{ld_name},#{ld_location},#{ld_direction},#{ld_length},#{ld_width},
+        #{ld_area},
+        #{ld_block})
+    </insert>
+</mapper>

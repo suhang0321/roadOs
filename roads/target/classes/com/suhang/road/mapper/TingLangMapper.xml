@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.TingLangMapper">
+    <select id="findTingLangsByBlock" parameterType="com.suhang.road.povo.TingLangVo" resultType="com.suhang.road.po.TingLang">
+        SELECT * FROM
+        r_tinglang r
+        WHERE
+        r.`lt_block`=#{block}
+        ORDER BY r.`lt_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findTingLangsAll" parameterType="com.suhang.road.povo.TingLangVo" resultType="com.suhang.road.po.TingLang">
+        SELECT * FROM
+        r_tinglang r
+        ORDER BY r.`lt_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findTingLangById" parameterType="Integer" resultType="com.suhang.road.po.TingLang">
+        SELECT * FROM r_tinglang WHERE lt_id =#{lt_id}
+    </select>
+    <select id="getTingLangsAll" resultType="com.suhang.road.po.TingLang">
+        SELECT * from r_tinglang
+    </select>
+    <select id="getTingLangsByBlock" parameterType="String" resultType="com.suhang.road.po.TingLang">
+        SELECT * from r_tinglang WHERE lt_block = #{block}
+    </select>
+    <select id="findCountAll" resultType="Integer">
+        SELECT count(*) from r_tinglang
+    </select>
+    <select id="findCountByBlock" parameterType="String" resultType="Integer">
+        SELECT count(*) from r_tinglang WHERE lt_block = #{block}
+    </select>
+    <update id="updateTingLangList" parameterType="java.util.List">
+        <foreach collection="list" item="single" index="index" open="" close="" separator=";">
+            UPDATE r_tinglang r
+            <set>
+                r.`lt_logo`=#{single.lt_logo},r.`lt_name`=#{single.lt_name},r.`lt_location`=#{single.lt_location},
+                r.`lt_unit`=#{single.lt_unit},r.`lt_type`=#{single.lt_type},
+                r.`lt_num`=#{single.lt_num},r.`lt_year`=#{single.lt_year},r.`lt_block`=#{single.lt_block}
+            </set>
+            where r.`lt_id`=#{single.lt_id}
+        </foreach>
+    </update>
+    <delete id="deleteTingLangsByIds" parameterType="String">
+        delete from r_tinglang where lt_id IN
+        <foreach collection="array" item="lt_id" open="(" close=")" separator=",">
+            #{lt_id}
+        </foreach>
+    </delete>
+    <insert id="insertTingLang" parameterType="com.suhang.road.po.TingLang">
+        INSERT into r_tinglang() VALUES (#{lt_id},#{lt_logo},#{lt_name},#{lt_location},#{lt_unit},
+        #{lt_type},#{lt_num},
+        #{lt_year},
+        #{lt_block})
+    </insert>
+</mapper>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.ZhenGuiMapper">
+    <select id="findZhenGuisByBlock" parameterType="com.suhang.road.povo.ZhenGuiVo" resultType="com.suhang.road.po.ZhenGui">
+        SELECT * FROM
+        r_zhengui r
+        WHERE
+        r.`zg_block`=#{block}
+        ORDER BY r.`zg_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findZhenGuisAll" parameterType="com.suhang.road.povo.ZhenGuiVo" resultType="com.suhang.road.po.ZhenGui">
+        SELECT * FROM
+        r_zhengui r
+        ORDER BY r.`zg_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findZhenGuiById" parameterType="Integer" resultType="com.suhang.road.po.ZhenGui">
+        SELECT  * FROM  r_zhengui WHERE zg_id = #{zg_id}
+    </select>
+    <select id="getZhenGuisAll" resultType="com.suhang.road.po.ZhenGui">
+        SELECT * FROM r_zhengui
+    </select>
+    <select id="getZhenGuisByBlock" parameterType="String" resultType="com.suhang.road.po.ZhenGui">
+        SELECT * FROM r_zhengui WHERE zg_block = #{block}
+    </select>
+    <select id="findCountAll" resultType="Integer">
+        SELECT count(*) from r_zhengui
+    </select>
+    <select id="findCountByBlock" parameterType="String" resultType="Integer">
+        SELECT count(*) from r_zhengui WHERE zg_block = #{block}
+    </select>
+    <update id="updateZhenGuiList" parameterType="java.util.List">
+        <foreach collection="list" item="single" index="index" open="" close="" separator=";">
+            UPDATE r_zhengui r
+            <set>
+                r.`zg_logo`=#{single.zg_logo},r.`zg_name`=#{single.zg_name},r.`zg_location`=#{single.zg_location},
+                r.`zg_distance`=#{single.zg_distance},r.`zg_protect`=#{single.zg_protect},
+                r.`zg_num`=#{single.zg_num},r.`zg_year`=#{single.zg_year},r.`zg_block`=#{single.zg_block}
+            </set>
+            where r.`zg_id`=#{single.zg_id}
+        </foreach>
+    </update>
+    <delete id="deleteZhenGuisByIds" parameterType="String">
+        delete from r_zhengui where zg_id IN
+        <foreach collection="array" item="zg_id" open="(" close=")" separator=",">
+            #{zg_id}
+        </foreach>
+    </delete>
+    <insert id="insertZhenGui" parameterType="com.suhang.road.po.ZhenGui">
+        INSERT into r_zhengui() VALUES (#{zg_id},#{zg_logo},#{zg_name},#{zg_location},#{zg_distance},
+        #{zg_protect},#{zg_num},
+        #{zg_year},
+        #{zg_block})
+    </insert>
+</mapper>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suhang.road.mapper.LaJiMapper">
+    <select id="findLaJisByBlock" parameterType="com.suhang.road.povo.LaJiVo" resultType="com.suhang.road.po.LaJi">
+        SELECT * FROM
+        r_lajitong r
+        WHERE
+        r.`lj_block`=#{block}
+        ORDER BY r.`lj_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findLaJisAll" parameterType="com.suhang.road.povo.LaJiVo" resultType="com.suhang.road.po.LaJi">
+        SELECT * FROM
+        r_lajitong r
+        ORDER BY r.`lj_id` DESC LIMIT #{snep},#{ps}
+    </select>
+    <select id="findLaJiById" parameterType="Integer" resultType="com.suhang.road.po.LaJi">
+        SELECT * FROM r_lajitong WHERE lj_id = #{lj_id}
+    </select>
+    <select id="getLaJisAll" resultType="com.suhang.road.po.LaJi">
+        SELECT * FROM r_lajitong
+    </select>
+    <select id="getLaJisByBlock" parameterType="String" resultType="com.suhang.road.po.LaJi">
+        SELECT * from r_lajitong WHERE lj_block = #{block}
+    </select>
+    <select id="findCountAll" resultType="Integer">
+        select count(*) FROM r_lajitong
+    </select>
+    <select id="findCountByBlock" parameterType="String" resultType="Integer">
+        SELECT  count(*) FROM r_lajitong WHERE lj_block = #{block}
+    </select>
+    <update id="updateLaJiList" parameterType="java.util.List">
+        <foreach collection="list" item="single" index="index" open="" close="" separator=";">
+            UPDATE r_lajitong r
+            <set>
+                r.`lj_logo`=#{single.lj_logo},r.`lj_name`=#{single.lj_name},r.`lj_location`=#{single.lj_location},
+                r.`lj_distance`=#{single.lj_distance},r.`lj_type`=#{single.lj_type},
+                r.`lj_num`=#{single.lj_num},r.`lj_year`=#{single.lj_year},r.`lj_block`=#{single.lj_block}
+            </set>
+            where r.`lj_id`=#{single.lj_id}
+        </foreach>
+    </update>
+    <delete id="deleteLaJisByIds" parameterType="String">
+        delete from r_lajitong where lj_id IN
+        <foreach collection="array" item="lj_id" open="(" close=")" separator=",">
+            #{lj_id}
+        </foreach>
+    </delete>
+    <insert id="insertLaJi" parameterType="com.suhang.road.po.LaJi">
+        INSERT into r_lajitong() VALUES (#{lj_id},#{lj_logo},#{lj_name},#{lj_location},#{lj_distance},
+        #{lj_type},#{lj_num},
+        #{lj_year},
+        #{lj_block})
+    </insert>
+</mapper>
